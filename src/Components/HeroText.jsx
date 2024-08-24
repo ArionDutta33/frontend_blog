@@ -11,7 +11,7 @@ const HeroText = () => {
             <div className="text-xl mt-8">
                 A place to read, write, and deepen your understanding
             </div>
-            <div className="bg-green-600 text-white w-fit px-10 mt-10 text-xl tracking-tighter py-2 rounded-full"><Link to={'/authPage'}>Start reading</Link></div>
+            <div className="bg-green-600 text-white w-fit px-10 mt-10 text-xl tracking-tighter py-2 rounded-full"><Link to={'/register'}>Start reading</Link></div>
         </div>
     );
 };

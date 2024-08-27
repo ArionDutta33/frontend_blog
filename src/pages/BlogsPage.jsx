@@ -1,20 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import BlogBox from "../Components/BlogBox.jsx"
 import Footer from "../Components/Footer.jsx";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 const BlogsPage = () => {
-const [blogs, setBlogs] = useState([]);
-const [loading, setLoading] = useState(true);
-const getBlogs = async () => {
-    const res = await axios.get('/api/v1/blogs');
-    console.log(res.data.data);
-    setBlogs(res.data.data);
-}
-useEffect(() => {
-    getBlogs();
-},[])
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const getBlogs = async () => {
+        const res = await axios.get('/api/v1/blogs');
+        console.log(res.data.data);
+        setBlogs(res.data.data);
+    }
+    useEffect(() => {
+        getBlogs();
+    }, [])
     return (
         <div className="blogs-page min-h-screen ">
             <div className="  flex justify-between px-4 py-4">
@@ -29,9 +29,11 @@ useEffect(() => {
                     <BlogBox key={index} blog={blog} />
                 ))
             )}
-           <Footer isIndex={false}/>
+            <Footer isIndex={false} />
         </div>
     );
 };
 
 export default BlogsPage;
+
+//check

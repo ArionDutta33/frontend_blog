@@ -5,8 +5,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Editor } from '@tinymce/tinymce-react';
 
 const BlogForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const [editorContent, setEditorContent] = useState('');
+
+    const validateTitle = (value) => {
+        const words = value.trim().split(/\s+/);
+        return words.length <= 20 || 'Title must be under 20 words';
+    };
 
     const onSubmit = async (data) => {
         const formData = new FormData();
@@ -39,7 +44,10 @@ const BlogForm = () => {
                         <input
                             id="title"
                             type="text"
-                            {...register('title', { required: 'Title is required' })}
+                            {...register('title', {
+                                required: 'Title is required',
+                                validate: validateTitle
+                            })}
                             className={`block w-full px-4 py-2 border rounded-md shadow-sm ${errors.title ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
                             placeholder="Enter blog title"
                         />

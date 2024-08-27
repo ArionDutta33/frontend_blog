@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
 import Footer from '../Components/Footer.jsx';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ShowBlogPage = () => {
     const { id } = useParams();
     const [blogData, setBlogData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const navigate = useNavigate()
     const [editForm, setEditForm] = useState({
         title: '',
         body: ''
@@ -43,7 +46,14 @@ const ShowBlogPage = () => {
     const handleEditorChange = (content) => {
         setEditForm({ ...editForm, body: content });
     };
-
+    const handleDelete = async () => {
+        const res = await axios.delete(`/api/v1/blogs/${blogData._id}`)
+        if (!res) {
+            toast.error("Something went wrong")
+        }
+        toast.success("Successfully deleted")
+        navigate("/blogs")
+    }
     const handleEditSubmit = async (e) => {
         e.preventDefault();
         if (!validateTitle(editForm.title)) {
@@ -71,6 +81,7 @@ const ShowBlogPage = () => {
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-b from-indigo-50 via-purple-50 to-indigo-50">
+            <Toaster />
             <div className="container mx-auto p-6 flex-grow">
                 {/* Cover Image */}
                 <div className="rounded-lg overflow-hidden shadow-2xl mb-8">
@@ -149,6 +160,7 @@ const ShowBlogPage = () => {
                                     Edit
                                 </button>
                                 <button
+                                    onClick={handleDelete}
                                     className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors duration-300 shadow-md"
                                 // Add delete logic here if needed
                                 >
